@@ -18,7 +18,7 @@ public class Ambiente {
         return i >= tamanho || i < 0 || j >= tamanho || j < 0;
     }
     
-      private void colocaLixeiras() {
+    private void colocaLixeiras() {
         Random r = new Random();
         int n = (tamanho) - r.nextInt();
         lixeiras = new ArrayList<String>();
@@ -60,9 +60,9 @@ public class Ambiente {
                 campo[i][j] = 'N';
             }
         }
-        colocaSujeiras();
         colocaLixeiras();
         colocaRecargas();
+        colocaSujeiras();
     }
     
     public ArrayList<Ponto> getRedor(int i, int j){
