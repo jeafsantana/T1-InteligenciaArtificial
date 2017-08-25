@@ -35,7 +35,7 @@ public class Ambiente {
     
     private void colocaLixeiras() {
         Random r = new Random();
-        int random = r.nextInt(tamanho - 5);
+        int random = r.nextInt(tamanho - 1);
         int n = (tamanho) - random;
         lixeiras = new ArrayList<String>();
        
@@ -49,7 +49,7 @@ public class Ambiente {
 
     private void colocaRecargas() {
         Random r = new Random();        
-        int random = r.nextInt(tamanho - 5);
+        int random = r.nextInt(tamanho - 1);
         int n = (tamanho) - random;
         recargas = new ArrayList<String>();
         for(int x = 0; x < n; x++){
@@ -62,7 +62,7 @@ public class Ambiente {
 
     private void colocaSujeiras() {
         Random r = new Random();
-        int random = r.nextInt(tamanho - 5);
+        int random = r.nextInt(tamanho - 1);
         int n = (tamanho * tamanho) - random;
         sujeiras = new ArrayList<String>();
         for(int x = 0; x < n; x++){
