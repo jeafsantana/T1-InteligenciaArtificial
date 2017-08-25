@@ -37,14 +37,11 @@ public class Ambiente {
         Random r = new Random();
         int random = r.nextInt(tamanho - 5);
         int n = (tamanho) - random;
-        System.out.println("n " + n);
         lixeiras = new ArrayList<String>();
        
         for(int x = 0; x < n; x++){            
             int i = r.nextInt(tamanho);
-            System.out.println("i " + i);
             int j = r.nextInt(tamanho);
-            System.out.println("j " + j);
             campo[i][j] = 'L';
             lixeiras.add(i + "," + j);
         }
