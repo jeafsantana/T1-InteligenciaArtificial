@@ -14,6 +14,21 @@ public class Ambiente {
         init();
     }
     
+     private void init() {
+         
+        for(int i = 0 ; i < tamanho; i++){
+            for(int j = 0; j < tamanho; j++){
+                campo[i][j] = 'N';
+            }
+        }
+        
+        //colocaLixeiras();
+        //colocaRecargas();
+        //colocaSujeiras();
+        imprimeAmbiente();
+    }
+    
+    
     public boolean passouBorda(int i, int j){
         return i >= tamanho || i < 0 || j >= tamanho || j < 0;
     }
@@ -52,18 +67,7 @@ public class Ambiente {
             campo[i][j] = 'S';
             sujeiras.add(i + "," + j);
         }
-    }
-
-    private void init() {
-        for(int i = 0 ; i < tamanho; i++){
-            for(int j = 0; j < tamanho; j++){
-                campo[i][j] = 'N';
-            }
-        }
-        colocaLixeiras();
-        colocaRecargas();
-        colocaSujeiras();
-    }
+    }   
     
     public ArrayList<Ponto> getRedor(int i, int j){
         ArrayList<Ponto> pontos = new ArrayList<>();
@@ -86,4 +90,17 @@ public class Ambiente {
         
         return pontos;
     }
+    
+    public void imprimeAmbiente(){
+        
+        for(int i = 0; i < tamanho; i++){
+            System.out.println(i + " ");
+            for(int j = 0; j < tamanho; j++){            
+                    System.out.print("|" + campo[i][j] + "|");            
+                }   
+            System.out.println();
+            }  
+    
+    }
+    
 }
