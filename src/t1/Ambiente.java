@@ -24,7 +24,7 @@ public class Ambiente {
         
         colocaLixeiras();
         colocaRecargas();
-        //colocaSujeiras();
+        colocaSujeiras();
         imprimeAmbiente();
     }
     
@@ -62,7 +62,8 @@ public class Ambiente {
 
     private void colocaSujeiras() {
         Random r = new Random();
-        int n = (tamanho * tamanho) - r.nextInt();
+        int random = r.nextInt(tamanho - 5);
+        int n = (tamanho * tamanho) - random;
         sujeiras = new ArrayList<String>();
         for(int x = 0; x < n; x++){
             int i = r.nextInt(tamanho);
