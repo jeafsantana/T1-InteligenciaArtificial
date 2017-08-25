@@ -94,9 +94,8 @@ public class Ambiente {
     public void imprimeAmbiente(){
         
         for(int i = 0; i < tamanho; i++){
-            System.out.println(i + " ");
             for(int j = 0; j < tamanho; j++){            
-                    System.out.print("|" + campo[i][j] + "|");            
+                    System.out.print(" " + campo[i][j] + " ");            
                 }   
             System.out.println();
             }  

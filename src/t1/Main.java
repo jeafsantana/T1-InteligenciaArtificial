@@ -14,7 +14,6 @@ public class Main {
         
         Ambiente ambiente = new Ambiente(3);
         
-        ambiente.imprimeAmbiente();
         
     }
     
