@@ -22,7 +22,7 @@ public class Ambiente {
             }
         }
         
-        //colocaLixeiras();
+        colocaLixeiras();
         //colocaRecargas();
         //colocaSujeiras();
         imprimeAmbiente();
@@ -35,11 +35,16 @@ public class Ambiente {
     
     private void colocaLixeiras() {
         Random r = new Random();
-        int n = (tamanho) - r.nextInt();
+        int random = r.nextInt(tamanho - 5);
+        int n = (tamanho) - random;
+        System.out.println("n " + n);
         lixeiras = new ArrayList<String>();
-        for(int x = 0; x < n; x++){
+       
+        for(int x = 0; x < n; x++){            
             int i = r.nextInt(tamanho);
+            System.out.println("i " + i);
             int j = r.nextInt(tamanho);
+            System.out.println("j " + j);
             campo[i][j] = 'L';
             lixeiras.add(i + "," + j);
         }
@@ -91,7 +96,7 @@ public class Ambiente {
         return pontos;
     }
     
-    public void imprimeAmbiente(){
+    private void imprimeAmbiente(){
         
         for(int i = 0; i < tamanho; i++){
             for(int j = 0; j < tamanho; j++){            
