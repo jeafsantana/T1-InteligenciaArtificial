@@ -12,7 +12,7 @@ public class Main {
      */
     public static void main(String[] args) {
         
-        Ambiente ambiente = new Ambiente(10);
+        Ambiente ambiente = new Ambiente(8);
         
         
     }
