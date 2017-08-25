@@ -23,7 +23,7 @@ public class Ambiente {
         }
         
         colocaLixeiras();
-        //colocaRecargas();
+        colocaRecargas();
         //colocaSujeiras();
         imprimeAmbiente();
     }
@@ -48,8 +48,9 @@ public class Ambiente {
     }
 
     private void colocaRecargas() {
-        Random r = new Random();
-        int n = (tamanho) - r.nextInt();
+        Random r = new Random();        
+        int random = r.nextInt(tamanho - 5);
+        int n = (tamanho) - random;
         recargas = new ArrayList<String>();
         for(int x = 0; x < n; x++){
             int i = r.nextInt(tamanho);
