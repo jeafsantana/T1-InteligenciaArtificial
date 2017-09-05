@@ -11,6 +11,7 @@ public class Agente {
     private int repositorioMax;
     private Ambiente ambiente;
     private int direcao;
+    private int sentido;
 
     public Agente(int carga, int repositorio, int n) {
         cargaMax = carga;
@@ -18,24 +19,29 @@ public class Agente {
         bateria = carga;
         posicao = new Ponto(0, 0, '.');
         ambiente = new Ambiente(n);
-
+        sentido = 1;
+        direcao = 1;
     }
 
     private void varreAmbiente() {
         ArrayList<Ponto> redor = ambiente.getRedor(posicao.getX(), posicao.getY());
         
         for(Ponto p : redor){
+            if(ambiente.temDuasParedes(p) && sentido == 1 && posicao.getX() < ambiente.getTamanho()/2){
+                posicao.setPosicao(p.getX()+1, p.getX()+1);
+                break;
+            }
             if(posicaoDireita(p) && p.getConteudo() != '*' && direcao == 1){
+                posicao.setPosicao(p.getX(),p.getY());
+                break;
+            }
+            if(posicaoEsquerda(p) && p.getConteudo() != '*' && direcao == -1){
                 posicao.setPosicao(p.getX(),p.getY());
                 break;
             }
             if(posicaoAbaixo(p) && p.getConteudo() != '*'){
                 posicao.setPosicao(p.getX(),p.getY());
                 direcao = -direcao;
-                break;
-            }
-            if(posicaoEsquerda(p) && p.getConteudo() != '*' && direcao == -1){
-                posicao.setPosicao(p.getX(),p.getY());
                 break;
             }
         }

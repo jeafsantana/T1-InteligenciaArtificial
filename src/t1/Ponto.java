@@ -34,6 +34,11 @@ public class Ponto {
     public void setConteudo(char conteudo) {
         this.conteudo = conteudo;
     }
+
+    void setPosicao(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
     
     
 }

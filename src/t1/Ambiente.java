@@ -8,6 +8,7 @@ public class Ambiente {
     private char[][] campo;
     private int tamanho;
     private ArrayList<String> sujeiras, lixeiras, recargas;
+    private Ponto posicaoAgente;
 
     public Ambiente(int n) {
         tamanho = n;
@@ -140,6 +141,29 @@ public class Ambiente {
             System.out.println();
         }
 
+    }
+    
+    public boolean temDuasParedes(Ponto p){
+        return campo[p.getX()][p.getY()+1] == '*';
+    }
+
+    public void setPosicaoAgente(int x, int y) {
+        posicaoAgente.setPosicao(x,y);
+        campo[x][y] = 'A';
+        imprimeAmbiente();
+    }
+
+    public void tiraSujeira(Ponto posicao) {
+        campo[posicao.getX()][posicao.getY()] = 'N';
+        imprimeAmbiente();
+    }
+
+    public int getTamanho() {
+        return tamanho;
+    }
+
+    public ArrayList<String> getSujeiras() {
+        return sujeiras;
     }
 
 }
