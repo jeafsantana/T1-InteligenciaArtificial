@@ -29,6 +29,7 @@ public class Agente {
         for(Ponto p : redor){
             if(ambiente.temDuasParedes(p) && sentido == 1 && posicao.getX() < ambiente.getTamanho()/2){
                 posicao.setPosicao(p.getX()+1, p.getX()+1);
+                direcao = -1;
                 break;
             }
             if(posicaoDireita(p) && p.getConteudo() != '*' && direcao == 1){
@@ -42,6 +43,16 @@ public class Agente {
             if(posicaoAbaixo(p) && p.getConteudo() != '*'){
                 posicao.setPosicao(p.getX(),p.getY());
                 direcao = -direcao;
+                break;
+            }
+            if(temQuina(redor) && posicao.getX() > ambiente.getTamanho()/2 && sentido == 1){
+                posicao.setPosicao(p.getX()-1, p.getY()-1);
+                direcao = -1;
+                break;
+            }
+            if(posicao.getY() > ambiente.getTamanho()/2 && posicao.getX() > ambiente.getTamanho()/2 && sentido == 1 && posicaoAcima(p) && p.getConteudo() != '*'){
+                posicao.setPosicao(p.getX(), p.getY());
+                direcao = -1;
                 break;
             }
         }
@@ -62,6 +73,10 @@ public class Agente {
     }
     
     private void buscaPontoRecarga(Ponto p){}
+    
+    private boolean posicaoAcima(Ponto p) {
+        return p.getX() < posicao.getX() && p.getY() == posicao.getY();
+    }
 
     private boolean posicaoDireita(Ponto p) {
         return p.getX() > posicao.getX() && p.getY() == posicao.getY();
@@ -79,4 +94,11 @@ public class Agente {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    private boolean temQuina(ArrayList<Ponto> redor) {
+        int cont = 0;
+        for(Ponto p : redor){
+            if(p.getConteudo() == '*') cont++;
+        }
+        return cont == 2;
+    }
 }
