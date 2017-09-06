@@ -13,12 +13,12 @@ public class Agente {
     private int direcao;
     private int sentido;
 
-    public Agente(int carga, int repositorio, int n) {
+    public Agente(int carga, int repositorio, int n, int lixeiras, int pontos) {
         cargaMax = carga;
         repositorioMax = repositorio;
         bateria = carga;
         posicao = new Ponto(0, 0, '.');
-        ambiente = new Ambiente(n);
+        ambiente = new Ambiente(n, lixeiras, pontos);
         sentido = 1;
         direcao = 1;
     }

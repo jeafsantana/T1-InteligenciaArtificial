@@ -2,16 +2,21 @@ package t1;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Ambiente {
 
     private char[][] campo;
     private int tamanho;
     private ArrayList<String> sujeiras, lixeiras, recargas;
-    private Ponto posicaoAgente;
+    private Ponto posicaoAgente, inicioMuroEsquerda, finalMuroEsquerda, inicioMuroDireita, finalMuroDireita;
+    private int quantLixeiras;
+    private int quantPontos;
 
-    public Ambiente(int n) {
+    public Ambiente(int n, int lixeiras, int pontos) {
         tamanho = n;
+        quantLixeiras = lixeiras;
+        quantPontos = pontos;
         campo = new char[tamanho][tamanho];
         init();
     }
@@ -23,11 +28,12 @@ public class Ambiente {
                 campo[i][j] = 'N';
             }
         }
-
-        colocaLixeiras();
-        colocaRecargas();
+        
         colocaSujeiras();
         colocaParedes();
+        colocaLixeiras();
+        colocaRecargas();
+
         imprimeAmbiente();
     }
 
@@ -37,13 +43,19 @@ public class Ambiente {
 
     private void colocaLixeiras() {
         Random r = new Random();
-        int random = r.nextInt(tamanho - 1);
-        int n = (tamanho) - random;
+        //int random = r.nextInt(tamanho - 1);
         lixeiras = new ArrayList<String>();
 
-        for (int x = 0; x < n; x++) {
-            int i = r.nextInt(tamanho);
-            int j = r.nextInt(tamanho);
+        for (int x = 0; x < quantLixeiras/2; x++) {
+            int i = ThreadLocalRandom.current().nextInt(inicioMuroEsquerda.getX()+1, finalMuroEsquerda.getX());
+            int j = ThreadLocalRandom.current().nextInt(0, finalMuroEsquerda.getY());
+            campo[i][j] = 'L';
+            lixeiras.add(i + "," + j);
+        }
+        
+        for (int x = 0; x < quantLixeiras/2; x++) {
+            int i = ThreadLocalRandom.current().nextInt(inicioMuroDireita.getX()+1, finalMuroDireita.getX());
+            int j = ThreadLocalRandom.current().nextInt(finalMuroDireita.getY(), tamanho-1);
             campo[i][j] = 'L';
             lixeiras.add(i + "," + j);
         }
@@ -88,6 +100,9 @@ public class Ambiente {
 
         campo[i][j1 - 1] = '*';
         campo[i][j2 + 2] = '*';
+        
+        inicioMuroEsquerda = new Ponto(i,j1-1,'.');
+        inicioMuroDireita = new Ponto(i, j2+2,'.');
 
         while (i < limiteParaPintar) {
 
@@ -100,6 +115,8 @@ public class Ambiente {
         campo[i - 1][j1 - 1] = '*';
         campo[i - 1][j2 + 2] = '*';
 
+        finalMuroEsquerda = new Ponto(i-1,j1-1,'.');
+        finalMuroDireita = new Ponto(i-1,j2+2,'.');
     }
 
     public ArrayList<Ponto> getRedor(int i, int j) {
