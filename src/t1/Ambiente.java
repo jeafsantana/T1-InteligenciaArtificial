@@ -18,6 +18,7 @@ public class Ambiente {
         quantLixeiras = lixeiras;
         quantPontos = pontos;
         campo = new char[tamanho][tamanho];
+        posicaoAgente = new Ponto(0, 0, 'A');
         init();
     }
 
@@ -32,8 +33,8 @@ public class Ambiente {
         colocaSujeiras();
         colocaParedes();
         colocaLixeiras();
-        colocaRecargas();
-
+        //colocaRecargas();
+        campo[0][0] = 'A';
         imprimeAmbiente();
     }
 
@@ -157,14 +158,15 @@ public class Ambiente {
             }
             System.out.println();
         }
-
+        System.out.println();
     }
     
     public boolean temDuasParedes(Ponto p){
-        return campo[p.getX()][p.getY()+1] == '*';
+        return p.getY()+1 >= tamanho ? false : campo[p.getX()][p.getY()+1] == '*';
     }
 
     public void setPosicaoAgente(int x, int y) {
+        campo[posicaoAgente.getX()][posicaoAgente.getY()] = 'N';
         posicaoAgente.setPosicao(x,y);
         campo[x][y] = 'A';
         imprimeAmbiente();
@@ -181,6 +183,24 @@ public class Ambiente {
 
     public ArrayList<String> getSujeiras() {
         return sujeiras;
+    }
+
+    public boolean possoIrDireita(Ponto posicao) {
+        return (posicao.getX() < tamanho && posicao.getY()+1 < tamanho) ? 
+                campo[posicao.getX()][posicao.getY()+1] != '*' 
+                : false;
+    }
+
+    public boolean possoIrEsquerda(Ponto posicao) {
+        return (posicao.getX() < tamanho && (posicao.getY()-1 < tamanho && posicao.getY()-1 >= 0)) ? 
+                campo[posicao.getX()][posicao.getY()-1] != '*' 
+                : false;
+    }
+
+    boolean possoIrBaixo(Ponto posicao) {
+        return (posicao.getX()+1 < tamanho && (posicao.getY() < tamanho)) ? 
+                campo[posicao.getX()+1][posicao.getY()] != '*' 
+                : false;
     }
 
 }
