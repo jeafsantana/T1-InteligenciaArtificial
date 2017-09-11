@@ -30,15 +30,15 @@ public class Agente {
         
         if(flagDiagonal){
             if(sinalX == '+' && sinalY == '+'){
+                direcao = 1;
                 if(ambiente.posicaoPermitida(posicao.getX()-1, posicao.getY()+1)){
                     posicao.setPosicao(posicao.getX()-1, posicao.getY()+1);
-                    direcao = 1;
                 }
             }
             else if(sinalX == '+' && sinalY == '-'){
+                direcao = -1;
                 if(ambiente.posicaoPermitida(posicao.getX()-1, posicao.getY()-1)){
                     posicao.setPosicao(posicao.getX()-1, posicao.getY()-1);
-                    direcao = -1;
                 }
             }
             flagDiagonal = false;
@@ -92,10 +92,6 @@ public class Agente {
             direcao = -1;
         }
 
-//        if(temQuina(redor) && posicao.getX() > ambiente.getTamanho()/2 && sentido == 1){
-//            posicao.setPosicao(p.getX()-1, p.getY()-1);
-//            direcao = -1;
-//        }
 //        if(posicao.getY() > ambiente.getTamanho()/2 && posicao.getX() > ambiente.getTamanho()/2 && sentido == 1 && posicaoAcima(p) && p.getConteudo() != '*'){
 //            posicao.setPosicao(p.getX(), p.getY());
 //            direcao = -1;
