@@ -95,12 +95,12 @@ public class Ambiente {
             recargas.add(i + "," + j);
         }
     }
-    }
+    
 
     private void colocaSujeiras() {
         Random r = new Random();
         int random = r.nextInt(tamanho - 1);
-        int n = (tamanho * tamanho) - random;
+        int n = (tamanho * 3) - random;
         sujeiras = new ArrayList<String>();
         for (int x = 0; x < n; x++) {
             int i = r.nextInt(tamanho);
@@ -184,7 +184,7 @@ public class Ambiente {
     }
     
     public boolean temDuasParedes(Ponto p){
-        return p.getY()+1 >= tamanho ? false : campo[p.getX()][p.getY()+1] == '*';
+        return p.getY()+2 >= tamanho ? false : campo[p.getX()][p.getY()+1] == '*' && campo[p.getX()][p.getY()+2] == '*';
     }
 
     public void setPosicaoAgente(int x, int y) {
@@ -209,20 +209,41 @@ public class Ambiente {
 
     public boolean possoIrDireita(Ponto posicao) {
         return (posicao.getX() < tamanho && posicao.getY()+1 < tamanho) ? 
-                campo[posicao.getX()][posicao.getY()+1] != '*' 
+                campo[posicao.getX()][posicao.getY()+1] != '*' && campo[posicao.getX()][posicao.getY()+1] != 'L' && campo[posicao.getX()][posicao.getY()+1] != 'R'
                 : false;
     }
 
     public boolean possoIrEsquerda(Ponto posicao) {
         return (posicao.getX() < tamanho && (posicao.getY()-1 < tamanho && posicao.getY()-1 >= 0)) ? 
-                campo[posicao.getX()][posicao.getY()-1] != '*' 
+                campo[posicao.getX()][posicao.getY()-1] != '*' && campo[posicao.getX()][posicao.getY()-1] != 'L' && campo[posicao.getX()][posicao.getY()-1] != 'R' 
                 : false;
     }
 
     boolean possoIrBaixo(Ponto posicao) {
         return (posicao.getX()+1 < tamanho && (posicao.getY() < tamanho)) ? 
-                campo[posicao.getX()+1][posicao.getY()] != '*' 
+                campo[posicao.getX()+1][posicao.getY()] != '*'  && campo[posicao.getX()+1][posicao.getY()] != 'L' && campo[posicao.getX()+1][posicao.getY()] != 'R'
                 : false;
+    }
+
+    boolean posicaoPermitida(int x, int y) {
+        return ((x < tamanho && x >= 0) && ( y >= 0 && y < tamanho)) ? 
+                campo[x][y] != '*'  && campo[x][y] != 'L' && campo[x][y] != 'R'
+                : false;
+    }
+
+    boolean temParede(int x, int y) {
+        return ((x < tamanho && x >= 0) && ( y >= 0 && y < tamanho)) ? 
+                campo[x][y] == '*' : true;
+    }
+
+    boolean temParedeDireita(int x, int y) {
+        return ((x < tamanho && x >= 0) && ( y+1 >= 0 && y+1 < tamanho)) ?
+                campo[x][y+1] == '*' : true;
+    }
+    
+    boolean temParedeEsquerda(int x, int y) {
+        return ((x < tamanho && x >= 0) && ( y-1 >= 0 && y-1 < tamanho)) ?
+                campo[x][y-1] == '*' : true;
     }
 
 }

@@ -12,6 +12,9 @@ public class Agente {
     private Ambiente ambiente;
     private int direcao;
     private int sentido;
+    private boolean flagDiagonal;
+    private char sinalX, sinalY;
+    
 
     public Agente(int carga, int repositorio, int n, int lixeiras, int pontos) {
         cargaMax = carga;
@@ -24,24 +27,70 @@ public class Agente {
     }
 
     public void varreAmbiente() {
-        ArrayList<Ponto> redor = ambiente.getRedor(posicao.getX(), posicao.getY());
         
-        
-        if(direcao == 1 && ambiente.possoIrDireita(posicao)){
+        if(flagDiagonal){
+            if(sinalX == '+' && sinalY == '+'){
+                if(ambiente.posicaoPermitida(posicao.getX()-1, posicao.getY()+1)){
+                    posicao.setPosicao(posicao.getX()-1, posicao.getY()+1);
+                    direcao = 1;
+                }
+            }
+            else if(sinalX == '+' && sinalY == '-'){
+                if(ambiente.posicaoPermitida(posicao.getX()-1, posicao.getY()-1)){
+                    posicao.setPosicao(posicao.getX()-1, posicao.getY()-1);
+                    direcao = -1;
+                }
+            }
+            flagDiagonal = false;
+            sinalX = '.';
+            sinalY = '.';
+        }
+        else if(ambiente.temDuasParedes(posicao) && sentido == 1){
+            if(ambiente.posicaoPermitida(posicao.getX()+1, posicao.getY()-1)){
+                posicao.setPosicao(posicao.getX()+1, posicao.getY()-1);
+                direcao = 1;
+            }
+            else{
+                posicao.setPosicao(posicao.getX()+1, posicao.getY());
+                direcao = 1;
+            }
+        }
+        else if(direcao == 1 && ambiente.possoIrDireita(posicao)){
             posicao.setPosicao(posicao.getX(),posicao.getY()+1);
+        }
+        else if(direcao == 1 && !ambiente.temParede(posicao.getX(),posicao.getY()+1)){
+            posicao.setPosicao(posicao.getX()+1, posicao.getY()+1);
+            if(!ambiente.temParedeDireita(posicao.getX(), posicao.getY())){
+                flagDiagonal = true;
+                sinalX = '+';
+                sinalY = '+';
+            }
         }
         else if(direcao == -1 && ambiente.possoIrEsquerda(posicao)){
             posicao.setPosicao(posicao.getX(),posicao.getY()-1);
         }
-        else if(ambiente.possoIrBaixo(posicao)){
+        else if(direcao == -1 && !ambiente.temParede(posicao.getX(),posicao.getY()-1)){
+            posicao.setPosicao(posicao.getX()+1, posicao.getY()-1);
+            if(!ambiente.temParedeEsquerda(posicao.getX(), posicao.getY())){
+                flagDiagonal = true;
+                sinalX = '+';
+                sinalY = '-';
+            }
+            else
+                direcao = 1;
+        }
+        else if(sentido == 1 && ambiente.possoIrBaixo(posicao)){
             posicao.setPosicao(posicao.getX()+1,posicao.getY());
             direcao = -direcao;
         }
-//        if(ambiente.temDuasParedes(p) && sentido == 1 && posicao.getX() < ambiente.getTamanho()/2){
-//            posicao.setPosicao(p.getX()+1, p.getX()+1);
-//            direcao = -1;
-//        }
-//        
+        else if(sentido == 1 && !ambiente.temParede(posicao.getX()+1,posicao.getY())){
+            posicao.setPosicao(posicao.getX()+1, posicao.getY()+1);
+            direcao = 1;
+        }
+        else if(sentido == 1 && ambiente.posicaoPermitida(posicao.getX()+1, posicao.getY()-1)){
+            posicao.setPosicao(posicao.getX()+1, posicao.getY()-1);
+            direcao = -1;
+        }
 
 //        if(temQuina(redor) && posicao.getX() > ambiente.getTamanho()/2 && sentido == 1){
 //            posicao.setPosicao(p.getX()-1, p.getY()-1);
