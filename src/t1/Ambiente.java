@@ -11,6 +11,7 @@ public class Ambiente {
     private ArrayList<String> sujeiras, lixeiras, recargas;
     private Ponto posicaoAgente, inicioMuroEsquerda, finalMuroEsquerda, inicioMuroDireita, finalMuroDireita;
     private int quantLixeiras;
+    private int quantRecargas;
     private int quantPontos;
 
     public Ambiente(int n, int lixeiras, int pontos) {
@@ -73,6 +74,27 @@ public class Ambiente {
             campo[i][j] = 'R';
             recargas.add(i + "," + j);
         }
+    }
+    
+    private void colocaRecargasV2() {
+        Random r = new Random();
+        //int random = r.nextInt(tamanho - 1);
+        recargas = new ArrayList<String>();
+
+        for (int x = 0; x < quantRecargas/2; x++) {
+            int i = ThreadLocalRandom.current().nextInt(inicioMuroEsquerda.getX()+1, finalMuroEsquerda.getX());
+            int j = ThreadLocalRandom.current().nextInt(0, finalMuroEsquerda.getY());
+            campo[i][j] = 'L';
+            recargas.add(i + "," + j);
+        }
+        
+        for (int x = 0; x < quantRecargas/2; x++) {
+            int i = ThreadLocalRandom.current().nextInt(inicioMuroDireita.getX()+1, finalMuroDireita.getX());
+            int j = ThreadLocalRandom.current().nextInt(finalMuroDireita.getY(), tamanho-1);
+            campo[i][j] = 'L';
+            recargas.add(i + "," + j);
+        }
+    }
     }
 
     private void colocaSujeiras() {
