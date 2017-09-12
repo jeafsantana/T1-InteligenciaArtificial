@@ -15,6 +15,7 @@ public class Agente {
     private int sentido;
     private boolean flagDiagonal;
     private char sinalX, sinalY;
+    private ArrayList<Ponto> caminho;
 
     public Agente(int carga, int repositorio, int n, int lixeiras, int pontos) {
         cargaMax = carga;
@@ -92,7 +93,8 @@ public class Agente {
             ambiente.tiraSujeira(posicao);
         }
         if (repositorio == repositorioMax) {
-            buscaLixeira(posicao);
+            Ponto lixeira = ambiente.lixeiraMaisProxima(posicao);
+            buscaLixeira(posicao.getX(), posicao.getY(), lixeira.getX(), lixeira.getY());
         }
         bateria--;
         if (bateria <= (bateria * 0.1)) {
@@ -150,17 +152,19 @@ public class Agente {
         ArrayList<Ponto> openList = new ArrayList<Ponto>();
         ArrayList<Ponto> closedList = new ArrayList<Ponto>();
         Ponto lixeira = ambiente.getCampo(newX, newY);
+        Ponto old = ambiente.getCampo(oldX, oldY);
         openList.add(ambiente.getCampo(oldX, oldY)); // add starting node to open list
 
         boolean done = false;
         Ponto current;
         while (!done) {
-            current = lowestFInOpen(); // get node with lowest fCosts from openList provavelmente a heuristica vai aqui
+            current = ambiente.menorValorF(old, openList); // get node with lowest fCosts from openList provavelmente a heuristica vai aqui
             closedList.add(current); // add current node to closed list
             openList.remove(current); // delete current node from open list
 
             if ((current.getX() == newX) && (current.getY() == newY)) { // found goal
-                return calcPath(nodes[oldX][oldY], current);
+                calcPath(old, lixeira, caminho);
+                return caminho;
             }
 
             // for all adjacent nodes:
@@ -173,9 +177,9 @@ public class Agente {
                     currentAdj.setValorG(ambiente.calculaValorG(current, currentAdj)); // set g costs of this node (costs from start to this node)
                     openList.add(currentAdj); // add node to openList
                 } else { // node is in openList
-                    if (currentAdj.getgCosts() > currentAdj.calculategCosts(current)) { // costs from current node are cheaper than previous costs
-                        currentAdj.setPrevious(current); // set current node as previous for this node
-                        currentAdj.setgCosts(current); // set g costs of this node (costs from start to this node)
+                    if (currentAdj.getValorG() > ambiente.calculaValorG(currentAdj, current)) { // costs from current node are cheaper than previous costs
+                        currentAdj.setAnterior(current); // set current node as previous for this node
+                        currentAdj.setValorG(ambiente.calculaValorG(current, currentAdj)); // set g costs of this node (costs from start to this node)
                     }
                 }
             }
@@ -185,6 +189,19 @@ public class Agente {
             }
         }
         return null; // unreachable
+
+    }
+
+    public void calcPath(Ponto beginning, Ponto end, ArrayList<Ponto> caminho) {
+
+        if (end == beginning) {
+
+            caminho.add(beginning);
+            return;
+        }
+
+        calcPath(beginning, end.anterior, caminho);
+        caminho.add(end);
 
     }
 

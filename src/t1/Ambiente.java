@@ -264,20 +264,47 @@ public class Ambiente {
         }
         return p1;
     }
-    
-    public int calculaValorG(Ponto atual, Ponto adj){
-       
-        if(adj.getX() == atual.getX() && adj.getY() != adj.getY()
-           || adj.getX() != atual.getX() && adj.getY() == adj.getY()){
+
+    public int calculaValorG(Ponto atual, Ponto adj) {
+
+        if (adj.getX() == atual.getX() && adj.getY() != adj.getY()
+                || adj.getX() != atual.getX() && adj.getY() == adj.getY()) {
             return 5;
-        }
-        else
+        } else {
             return 10;
+        }
     }
 
     public int heuristicaLixeiras(Ponto posicao, Ponto lixeira) {
 
         return (posicao.getX() - lixeira.getX()) + (posicao.getY() - lixeira.getY());
+
+    }
+
+    public int calculaValorF(Ponto posicao, Ponto lixeira) {
+
+        return posicao.valorG + heuristicaLixeiras(posicao, lixeira);
+
+    }
+
+    public Ponto menorValorF(Ponto posicao, ArrayList<Ponto> lista) {
+        int menorValor = 100000;
+        int valorCorrente = 0;
+        Ponto p = null;
+
+        for (int i = 0; i < lista.size(); i++) {
+
+            valorCorrente = calculaValorF(posicao, lista.get(i));
+
+            if (valorCorrente < menorValor) {
+                menorValor = valorCorrente;
+                p = lista.get(i);
+
+            }
+
+        }
+
+        return p;
 
     }
 
