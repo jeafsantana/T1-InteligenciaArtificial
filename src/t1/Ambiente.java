@@ -34,7 +34,7 @@ public class Ambiente {
         colocaSujeiras();
         colocaParedes();
         colocaLixeiras();
-        //colocaRecargas();
+        colocaRecargas();
         campo[0][0] = 'A';
         imprimeAmbiente();
     }
@@ -65,33 +65,19 @@ public class Ambiente {
 
     private void colocaRecargas() {
         Random r = new Random();
-        int random = r.nextInt(tamanho - 1);
-        int n = (tamanho) - random;
-        recargas = new ArrayList<String>();
-        for (int x = 0; x < n; x++) {
-            int i = r.nextInt(tamanho);
-            int j = r.nextInt(tamanho);
-            campo[i][j] = 'R';
-            recargas.add(i + "," + j);
-        }
-    }
-    
-    private void colocaRecargasV2() {
-        Random r = new Random();
-        //int random = r.nextInt(tamanho - 1);
         recargas = new ArrayList<String>();
 
         for (int x = 0; x < quantRecargas/2; x++) {
             int i = ThreadLocalRandom.current().nextInt(inicioMuroEsquerda.getX()+1, finalMuroEsquerda.getX());
             int j = ThreadLocalRandom.current().nextInt(0, finalMuroEsquerda.getY());
-            campo[i][j] = 'L';
+            campo[i][j] = 'R';
             recargas.add(i + "," + j);
         }
         
         for (int x = 0; x < quantRecargas/2; x++) {
             int i = ThreadLocalRandom.current().nextInt(inicioMuroDireita.getX()+1, finalMuroDireita.getX());
             int j = ThreadLocalRandom.current().nextInt(finalMuroDireita.getY(), tamanho-1);
-            campo[i][j] = 'L';
+            campo[i][j] = 'R';
             recargas.add(i + "," + j);
         }
     }
