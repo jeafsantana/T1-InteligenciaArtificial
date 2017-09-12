@@ -149,6 +149,7 @@ public class Agente {
 
         ArrayList<Ponto> openList = new ArrayList<Ponto>();
         ArrayList<Ponto> closedList = new ArrayList<Ponto>();
+        Ponto lixeira = ambiente.getCampo(newX, newY);
         openList.add(ambiente.getCampo(oldX, oldY)); // add starting node to open list
 
         boolean done = false;
@@ -168,7 +169,7 @@ public class Agente {
                 Ponto currentAdj = adjacentNodes.get(i);
                 if (!openList.contains(currentAdj)) { // node is not in openList
                     currentAdj.setAnterior(current); // set current node as previous for this node
-                    currentAdj.sethCosts(nodes[newX][newY]); // set h costs of this node (estimated costs to goal)
+                    currentAdj.setValorHeuristica(ambiente.heuristicaLixeiras(currentAdj, lixeira)); // set h costs of this node (estimated costs to goal)
                     currentAdj.setgCosts(current); // set g costs of this node (costs from start to this node)
                     openList.add(currentAdj); // add node to openList
                 } else { // node is in openList

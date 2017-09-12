@@ -14,6 +14,10 @@ public class Ponto {
         anterior = null;
     }
 
+    public void setValorHeuristica(int valor) {
+        valorHeuristica = valor;
+    }
+
     public void setAnterior(Ponto p) {
         anterior = p;
 
