@@ -172,6 +172,7 @@ public class Agente {
             if ((current.getxPosition() == newX) && (current.getyPosition() == newY)) { // found goal
                 return calcPath(nodes[oldX][oldY], current);
             }
+            int bb;
 
             // for all adjacent nodes:
             List<T> adjacentNodes = getAdjacent(current);
