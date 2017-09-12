@@ -7,17 +7,16 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Ambiente {
 
     private char[][] campo;
-    private int tamanho;
+    private final int tamanho;
     private ArrayList<Ponto> sujeiras, lixeiras, recargas;
     private Ponto posicaoAgente, inicioMuroEsquerda, finalMuroEsquerda, inicioMuroDireita, finalMuroDireita;
-    private int quantLixeiras;
-    private int quantRecargas;
-    private int quantPontos;
+    private final int quantLixeiras;
+    private final int quantRecargas;
 
     public Ambiente(int n, int lixeiras, int pontos) {
         tamanho = n;
         quantLixeiras = lixeiras;
-        quantPontos = pontos;
+        quantRecargas = pontos;
         campo = new char[tamanho][tamanho];
         posicaoAgente = new Ponto(0, 0, 'A');
         init();
@@ -44,8 +43,6 @@ public class Ambiente {
     }
 
     private void colocaLixeiras() {
-        Random r = new Random();
-        //int random = r.nextInt(tamanho - 1);
         lixeiras = new ArrayList<Ponto>();
         Ponto p;
 
@@ -68,7 +65,6 @@ public class Ambiente {
     }
 
     private void colocaRecargas() {
-        Random r = new Random();
         recargas = new ArrayList<Ponto>();
         Ponto p;
 
@@ -180,8 +176,10 @@ public class Ambiente {
         System.out.println();
     }
 
-    public boolean temDuasParedes(Ponto p) {
-        return p.getY() + 2 >= tamanho ? false : campo[p.getX()][p.getY() + 1] == '*' && campo[p.getX()][p.getY() + 2] == '*';
+    public boolean temDuasParedes(Ponto p, int sentido) {
+        return p.getY() + 2 >= tamanho || p.getY() - 2 < 0 ? false : 
+                sentido == 1 ? campo[p.getX()][p.getY() + 1] == '*' && campo[p.getX()][p.getY() + 2] == '*' : 
+                               campo[p.getX()][p.getY() - 1] == '*' && campo[p.getX()][p.getY() - 2] == '*';
     }
 
     public void setPosicaoAgente(int x, int y) {
@@ -219,6 +217,12 @@ public class Ambiente {
     boolean possoIrBaixo(Ponto posicao) {
         return (posicao.getX() + 1 < tamanho && (posicao.getY() < tamanho))
                 ? campo[posicao.getX() + 1][posicao.getY()] != '*' && campo[posicao.getX() + 1][posicao.getY()] != 'L' && campo[posicao.getX() + 1][posicao.getY()] != 'R'
+                : false;
+    }
+    
+    boolean possoIrCima(Ponto posicao) {
+        return (posicao.getX()-1 >= 0 && posicao.getX() -1 < tamanho && (posicao.getY() < tamanho && posicao.getY() >= 0))
+                ? campo[posicao.getX() - 1][posicao.getY()] != '*' && campo[posicao.getX() - 1][posicao.getY()] != 'L' && campo[posicao.getX() - 1][posicao.getY()] != 'R'
                 : false;
     }
 
@@ -266,7 +270,6 @@ public class Ambiente {
     }
 
     public int calculaValorG(Ponto atual, Ponto adj) {
-
         if (adj.getX() == atual.getX() && adj.getY() != adj.getY()
                 || adj.getX() != atual.getX() && adj.getY() == adj.getY()) {
             return 5;
@@ -276,15 +279,11 @@ public class Ambiente {
     }
 
     public int heuristicaLixeiras(Ponto posicao, Ponto lixeira) {
-
         return (posicao.getX() - lixeira.getX()) + (posicao.getY() - lixeira.getY());
-
     }
 
     public int calculaValorF(Ponto posicao, Ponto lixeira) {
-
         return posicao.valorG + heuristicaLixeiras(posicao, lixeira);
-
     }
 
     public Ponto menorValorF(Ponto posicao, ArrayList<Ponto> lista) {
@@ -293,15 +292,11 @@ public class Ambiente {
         Ponto p = null;
 
         for (int i = 0; i < lista.size(); i++) {
-
             valorCorrente = calculaValorF(posicao, lista.get(i));
-
             if (valorCorrente < menorValor) {
                 menorValor = valorCorrente;
                 p = lista.get(i);
-
             }
-
         }
 
         return p;

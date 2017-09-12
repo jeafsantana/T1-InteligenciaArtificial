@@ -44,43 +44,58 @@ public class Agente {
             flagDiagonal = false;
             sinalX = '.';
             sinalY = '.';
-        } else if (ambiente.temDuasParedes(posicao) && sentido == 1) {
-            if (ambiente.posicaoPermitida(posicao.getX() + 1, posicao.getY() - 1)) {
-                posicao.setPosicao(posicao.getX() + 1, posicao.getY() - 1);
-                direcao = 1;
+        } else if (ambiente.temDuasParedes(posicao, sentido)) {
+            if (ambiente.posicaoPermitida(posicao.getX() + sentido, posicao.getY() - sentido)) {
+                posicao.setPosicao(posicao.getX() + sentido, posicao.getY() - sentido);
+                direcao = sentido;
             } else {
-                posicao.setPosicao(posicao.getX() + 1, posicao.getY());
-                direcao = 1;
+                posicao.setPosicao(posicao.getX() + sentido, posicao.getY());
+                direcao = sentido;
             }
         } else if (direcao == 1 && ambiente.possoIrDireita(posicao)) {
             posicao.setPosicao(posicao.getX(), posicao.getY() + 1);
         } else if (direcao == 1 && !ambiente.temParede(posicao.getX(), posicao.getY() + 1)) {
-            posicao.setPosicao(posicao.getX() + 1, posicao.getY() + 1);
+            posicao.setPosicao(posicao.getX() + sentido, posicao.getY() + 1);
             if (!ambiente.temParedeDireita(posicao.getX(), posicao.getY())) {
                 flagDiagonal = true;
-                sinalX = '+';
+                sinalX = sentido == 1 ? '+' : '-';
                 sinalY = '+';
             }
+            else
+                direcao = -1;
         } else if (direcao == -1 && ambiente.possoIrEsquerda(posicao)) {
             posicao.setPosicao(posicao.getX(), posicao.getY() - 1);
         } else if (direcao == -1 && !ambiente.temParede(posicao.getX(), posicao.getY() - 1)) {
-            posicao.setPosicao(posicao.getX() + 1, posicao.getY() - 1);
+            posicao.setPosicao(posicao.getX() + sentido, posicao.getY() - 1);
             if (!ambiente.temParedeEsquerda(posicao.getX(), posicao.getY())) {
                 flagDiagonal = true;
-                sinalX = '+';
+                sinalX = sentido == 1 ? '+' : '-';
                 sinalY = '-';
-            } else {
+            } else
                 direcao = 1;
-            }
+        } else if(sentido == 1 && posicao.getY() == ambiente.getTamanho()-1 && posicao.getX() == ambiente.getTamanho()-2){
+            sentido = -1;
+            if(ambiente.posicaoPermitida(posicao.getX()-1, posicao.getY()))
+                posicao.setPosicao(posicao.getX()-1, posicao.getY());
+            direcao = -1;
         } else if (sentido == 1 && ambiente.possoIrBaixo(posicao)) {
             posicao.setPosicao(posicao.getX() + 1, posicao.getY());
             direcao = -direcao;
-        } else if (sentido == 1 && !ambiente.temParede(posicao.getX() + 1, posicao.getY())) {
-            posicao.setPosicao(posicao.getX() + 1, posicao.getY() + 1);
-            direcao = 1;
-        } else if (sentido == 1 && ambiente.posicaoPermitida(posicao.getX() + 1, posicao.getY() - 1)) {
+        } 
+        else if (sentido == 1 && !ambiente.temParede(posicao.getX() + 1, posicao.getY())) {
+            posicao.setPosicao(posicao.getX() + 1, posicao.getY() - direcao);
+            direcao = -direcao;
+        } 
+        else if (sentido == 1 && ambiente.posicaoPermitida(posicao.getX() + 1, posicao.getY() - 1)) {
             posicao.setPosicao(posicao.getX() + 1, posicao.getY() - 1);
             direcao = -1;
+        } else if(sentido == -1 && ambiente.possoIrCima(posicao)){
+            posicao.setPosicao(posicao.getX()-1, posicao.getY());
+            direcao = -direcao;
+        }
+        else if (sentido == -1 && !ambiente.temParede(posicao.getX() - 1, posicao.getY())) {
+            posicao.setPosicao(posicao.getX() - 1, posicao.getY() - direcao);
+            direcao = 1;
         }
 
 //        if(posicao.getY() > ambiente.getTamanho()/2 && posicao.getX() > ambiente.getTamanho()/2 && sentido == 1 && posicaoAcima(p) && p.getConteudo() != '*'){
@@ -88,13 +103,13 @@ public class Agente {
 //            direcao = -1;
 //        }
         ambiente.setPosicaoAgente(posicao.getX(), posicao.getY());
-        if (ambiente.getSujeiras().contains(posicao.getX() + "," + posicao.getY())) {
+        if (ambiente.getSujeiras().contains(new Ponto(posicao.getX(), posicao.getY(), '.'))) {
             repositorio++;
             ambiente.tiraSujeira(posicao);
         }
         if (repositorio == repositorioMax) {
             Ponto lixeira = ambiente.lixeiraMaisProxima(posicao);
-            buscaLixeira(posicao.getX(), posicao.getY(), lixeira.getX(), lixeira.getY());
+            //buscaLixeira(posicao.getX(), posicao.getY(), lixeira.getX(), lixeira.getY());
         }
         bateria--;
         if (bateria <= (bateria * 0.1)) {

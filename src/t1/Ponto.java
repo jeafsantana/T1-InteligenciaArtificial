@@ -60,4 +60,9 @@ public class Ponto {
         return valorG;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        final Ponto other = (Ponto) obj;
+        return this.x == other.x && this.y == other.y;
+    }
 }
