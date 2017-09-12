@@ -264,6 +264,16 @@ public class Ambiente {
         }
         return p1;
     }
+    
+    public int calculaValorG(Ponto atual, Ponto adj){
+       
+        if(adj.getX() == atual.getX() && adj.getY() != adj.getY()
+           || adj.getX() != atual.getX() && adj.getY() == adj.getY()){
+            return 5;
+        }
+        else
+            return 10;
+    }
 
     public int heuristicaLixeiras(Ponto posicao, Ponto lixeira) {
 

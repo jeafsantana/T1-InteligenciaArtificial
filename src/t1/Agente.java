@@ -170,7 +170,7 @@ public class Agente {
                 if (!openList.contains(currentAdj)) { // node is not in openList
                     currentAdj.setAnterior(current); // set current node as previous for this node
                     currentAdj.setValorHeuristica(ambiente.heuristicaLixeiras(currentAdj, lixeira)); // set h costs of this node (estimated costs to goal)
-                    currentAdj.setgCosts(current); // set g costs of this node (costs from start to this node)
+                    currentAdj.setValorG(ambiente.calculaValorG(current, currentAdj)); // set g costs of this node (costs from start to this node)
                     openList.add(currentAdj); // add node to openList
                 } else { // node is in openList
                     if (currentAdj.getgCosts() > currentAdj.calculategCosts(current)) { // costs from current node are cheaper than previous costs

@@ -4,7 +4,7 @@ public class Ponto {
 
     private int x, y;
     private char conteudo;
-    public int valorHeuristica;
+    public int valorHeuristica, valorG;
     public Ponto anterior;
 
     public Ponto(int x, int y, char conteudo) {
@@ -50,6 +50,14 @@ public class Ponto {
     void setPosicao(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    void setValorG(int valor) {
+        valorG = valor;
+    }
+    
+    int getValorG(){
+        return valorG;
     }
 
 }
