@@ -15,7 +15,6 @@ public class Agente {
     private int sentido;
     private boolean flagDiagonal;
     private char sinalX, sinalY;
-    
 
     public Agente(int carga, int repositorio, int n, int lixeiras, int pontos) {
         cargaMax = carga;
@@ -28,68 +27,58 @@ public class Agente {
     }
 
     public void varreAmbiente() {
-        
-        if(flagDiagonal){
-            if(sinalX == '+' && sinalY == '+'){
+
+        if (flagDiagonal) {
+            if (sinalX == '+' && sinalY == '+') {
                 direcao = 1;
-                if(ambiente.posicaoPermitida(posicao.getX()-1, posicao.getY()+1)){
-                    posicao.setPosicao(posicao.getX()-1, posicao.getY()+1);
+                if (ambiente.posicaoPermitida(posicao.getX() - 1, posicao.getY() + 1)) {
+                    posicao.setPosicao(posicao.getX() - 1, posicao.getY() + 1);
                 }
-            }
-            else if(sinalX == '+' && sinalY == '-'){
+            } else if (sinalX == '+' && sinalY == '-') {
                 direcao = -1;
-                if(ambiente.posicaoPermitida(posicao.getX()-1, posicao.getY()-1)){
-                    posicao.setPosicao(posicao.getX()-1, posicao.getY()-1);
+                if (ambiente.posicaoPermitida(posicao.getX() - 1, posicao.getY() - 1)) {
+                    posicao.setPosicao(posicao.getX() - 1, posicao.getY() - 1);
                 }
             }
             flagDiagonal = false;
             sinalX = '.';
             sinalY = '.';
-        }
-        else if(ambiente.temDuasParedes(posicao) && sentido == 1){
-            if(ambiente.posicaoPermitida(posicao.getX()+1, posicao.getY()-1)){
-                posicao.setPosicao(posicao.getX()+1, posicao.getY()-1);
+        } else if (ambiente.temDuasParedes(posicao) && sentido == 1) {
+            if (ambiente.posicaoPermitida(posicao.getX() + 1, posicao.getY() - 1)) {
+                posicao.setPosicao(posicao.getX() + 1, posicao.getY() - 1);
+                direcao = 1;
+            } else {
+                posicao.setPosicao(posicao.getX() + 1, posicao.getY());
                 direcao = 1;
             }
-            else{
-                posicao.setPosicao(posicao.getX()+1, posicao.getY());
-                direcao = 1;
-            }
-        }
-        else if(direcao == 1 && ambiente.possoIrDireita(posicao)){
-            posicao.setPosicao(posicao.getX(),posicao.getY()+1);
-        }
-        else if(direcao == 1 && !ambiente.temParede(posicao.getX(),posicao.getY()+1)){
-            posicao.setPosicao(posicao.getX()+1, posicao.getY()+1);
-            if(!ambiente.temParedeDireita(posicao.getX(), posicao.getY())){
+        } else if (direcao == 1 && ambiente.possoIrDireita(posicao)) {
+            posicao.setPosicao(posicao.getX(), posicao.getY() + 1);
+        } else if (direcao == 1 && !ambiente.temParede(posicao.getX(), posicao.getY() + 1)) {
+            posicao.setPosicao(posicao.getX() + 1, posicao.getY() + 1);
+            if (!ambiente.temParedeDireita(posicao.getX(), posicao.getY())) {
                 flagDiagonal = true;
                 sinalX = '+';
                 sinalY = '+';
             }
-        }
-        else if(direcao == -1 && ambiente.possoIrEsquerda(posicao)){
-            posicao.setPosicao(posicao.getX(),posicao.getY()-1);
-        }
-        else if(direcao == -1 && !ambiente.temParede(posicao.getX(),posicao.getY()-1)){
-            posicao.setPosicao(posicao.getX()+1, posicao.getY()-1);
-            if(!ambiente.temParedeEsquerda(posicao.getX(), posicao.getY())){
+        } else if (direcao == -1 && ambiente.possoIrEsquerda(posicao)) {
+            posicao.setPosicao(posicao.getX(), posicao.getY() - 1);
+        } else if (direcao == -1 && !ambiente.temParede(posicao.getX(), posicao.getY() - 1)) {
+            posicao.setPosicao(posicao.getX() + 1, posicao.getY() - 1);
+            if (!ambiente.temParedeEsquerda(posicao.getX(), posicao.getY())) {
                 flagDiagonal = true;
                 sinalX = '+';
                 sinalY = '-';
-            }
-            else
+            } else {
                 direcao = 1;
-        }
-        else if(sentido == 1 && ambiente.possoIrBaixo(posicao)){
-            posicao.setPosicao(posicao.getX()+1,posicao.getY());
+            }
+        } else if (sentido == 1 && ambiente.possoIrBaixo(posicao)) {
+            posicao.setPosicao(posicao.getX() + 1, posicao.getY());
             direcao = -direcao;
-        }
-        else if(sentido == 1 && !ambiente.temParede(posicao.getX()+1,posicao.getY())){
-            posicao.setPosicao(posicao.getX()+1, posicao.getY()+1);
+        } else if (sentido == 1 && !ambiente.temParede(posicao.getX() + 1, posicao.getY())) {
+            posicao.setPosicao(posicao.getX() + 1, posicao.getY() + 1);
             direcao = 1;
-        }
-        else if(sentido == 1 && ambiente.posicaoPermitida(posicao.getX()+1, posicao.getY()-1)){
-            posicao.setPosicao(posicao.getX()+1, posicao.getY()-1);
+        } else if (sentido == 1 && ambiente.posicaoPermitida(posicao.getX() + 1, posicao.getY() - 1)) {
+            posicao.setPosicao(posicao.getX() + 1, posicao.getY() - 1);
             direcao = -1;
         }
 
@@ -98,23 +87,25 @@ public class Agente {
 //            direcao = -1;
 //        }
         ambiente.setPosicaoAgente(posicao.getX(), posicao.getY());
-        if(ambiente.getSujeiras().contains(posicao.getX()+","+posicao.getY())){
+        if (ambiente.getSujeiras().contains(posicao.getX() + "," + posicao.getY())) {
             repositorio++;
             ambiente.tiraSujeira(posicao);
         }
-        if(repositorio == repositorioMax){
+        if (repositorio == repositorioMax) {
             buscaLixeira(posicao);
         }
         bateria--;
         if (bateria <= (bateria * 0.1)) {
             buscaPontoRecarga(posicao);
         }
-        if(posicao.getX() != (ambiente.getTamanho() - 1) || posicao.getY() != (ambiente.getTamanho() - 1))
+        if (posicao.getX() != (ambiente.getTamanho() - 1) || posicao.getY() != (ambiente.getTamanho() - 1)) {
             varreAmbiente();
+        }
     }
-    
-    private void buscaPontoRecarga(Ponto p){}
-    
+
+    private void buscaPontoRecarga(Ponto p) {
+    }
+
     private boolean posicaoAcima(Ponto p) {
         return p.getX() == posicao.getX() && p.getY() < posicao.getY();
     }
@@ -131,8 +122,7 @@ public class Agente {
         return p.getX() == posicao.getX() && p.getY() < posicao.getY();
     }
 
-    
-     /**
+    /**
      * The main A Star Algorithm in Java.
      *
      * finds an allowed path from start to goal coordinates on this map.
@@ -141,8 +131,8 @@ public class Agente {
      * the given Node implementation.
      * <p>
      * This method will return a LinkedList containing the start node at the
-     * beginning followed by the calculated shortest allowed path ending
-     * with the end node.
+     * beginning followed by the calculated shortest allowed path ending with
+     * the end node.
      * <p>
      * If no allowed path exists, an empty list will be returned.
      * <p>
@@ -155,12 +145,11 @@ public class Agente {
      * @param newY y where the path ends
      * @return the path as calculated by the A Star algorithm
      */
-    
     private List<Ponto> buscaLixeira(int oldX, int oldY, int newX, int newY) {
-        
-        openList = new LinkedList<Ponto>();
-        closedList = new LinkedList<Ponto>();
-        openList.add(nodes[oldX][oldY]); // add starting node to open list
+
+        ArrayList<Ponto> openList = new ArrayList<Ponto>();
+        ArrayList<Ponto> closedList = new ArrayList<Ponto>();
+        openList.add(ambiente.getCampo(oldX, oldY)); // add starting node to open list
 
         boolean done = false;
         Ponto current;
@@ -169,17 +158,16 @@ public class Agente {
             closedList.add(current); // add current node to closed list
             openList.remove(current); // delete current node from open list
 
-            if ((current.getxPosition() == newX) && (current.getyPosition() == newY)) { // found goal
+            if ((current.getX() == newX) && (current.getY() == newY)) { // found goal
                 return calcPath(nodes[oldX][oldY], current);
             }
-            int bb;
 
             // for all adjacent nodes:
-            List<T> adjacentNodes = getAdjacent(current);
+            ArrayList<Ponto> adjacentNodes = ambiente.getRedor(current.getX(), current.getY());
             for (int i = 0; i < adjacentNodes.size(); i++) {
-                T currentAdj = adjacentNodes.get(i);
+                Ponto currentAdj = adjacentNodes.get(i);
                 if (!openList.contains(currentAdj)) { // node is not in openList
-                    currentAdj.setPrevious(current); // set current node as previous for this node
+                    currentAdj.setAnterior(current); // set current node as previous for this node
                     currentAdj.sethCosts(nodes[newX][newY]); // set h costs of this node (estimated costs to goal)
                     currentAdj.setgCosts(current); // set g costs of this node (costs from start to this node)
                     openList.add(currentAdj); // add node to openList
@@ -192,18 +180,19 @@ public class Agente {
             }
 
             if (openList.isEmpty()) { // no path exists
-                return new LinkedList<T>(); // return empty list
+                return new ArrayList<Ponto>(); // return empty list
             }
         }
         return null; // unreachable
-        
-        
+
     }
 
     private boolean temQuina(ArrayList<Ponto> redor) {
         int cont = 0;
-        for(Ponto p : redor){
-            if(p.getConteudo() == '*') cont++;
+        for (Ponto p : redor) {
+            if (p.getConteudo() == '*') {
+                cont++;
+            }
         }
         return cont == 2;
     }

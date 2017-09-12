@@ -1,14 +1,22 @@
 package t1;
 
-
 public class Ponto {
+
     private int x, y;
     private char conteudo;
-    
-    public Ponto(int x, int y, char conteudo){
+    public int valorHeuristica;
+    public Ponto anterior;
+
+    public Ponto(int x, int y, char conteudo) {
         this.x = x;
         this.y = y;
         this.conteudo = conteudo;
+        anterior = null;
+    }
+
+    public void setAnterior(Ponto p) {
+        anterior = p;
+
     }
 
     public int getX() {
@@ -39,6 +47,5 @@ public class Ponto {
         this.x = x;
         this.y = y;
     }
-    
-    
+
 }
